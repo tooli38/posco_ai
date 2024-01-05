@@ -30,7 +30,6 @@ const inputStyle = {
   borderRadius: '10px',
 };
 function Login(props) {
-  const { setUserName, setUserId } = props;
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = process.env.REACT_APP_OTHER_API_URL + '/users/login';
@@ -49,8 +48,11 @@ function Login(props) {
       });
       if (response.status === 200) {
         const data = response.data;
-        setUserName(nickname);
-        setUserId(data.userId);
+        const user = {
+          userId: data.userId,
+          nickname: nickname,
+        };
+        window.localStorage.setItem('user', JSON.stringify(user));
         alert('로그인이 되었습니다.');
         if (data.role === 1) {
           window.location.href = '/admin-home';

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
 
 const imageBoxStyle = {
   width: '320px',
@@ -16,9 +17,39 @@ const imageStyle = {
 
 function ImageInput(props) {
   const [imageSrc, setImageSrc] = useState('');
-  const handleSubmit = (e) => {
+  const [resImageSrc, setResImageSrc] = useState('');
+  const [resImageTxt, setResImageTxt] = useState('');
+  const userId = JSON.parse(localStorage.getItem('user'))?.userId;
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const url = process.env.REACT_APP_IMAGE_API_URL;
+    const formData = new FormData();
+    const imgData = await axios.get(imageSrc, { responseType: 'blob' });
+    formData.append('file', imgData.data);
+    formData.append('userId', userId);
+    try {
+      const response = await axios.post(url, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      if (response.status === 202) {
+        alert('업로드되었습니다.');
+        const data = response.data;
+        setResImageSrc(
+          process.env.REACT_APP_IMAGE_API_URL + '/result/' + data.resultPath
+        );
+
+        let txt = '';
+        const newArr = [...new Set(data.result)];
+        for (let i = 0; i < newArr.length; i++) {
+          txt += data.result[i] + ' ';
+        }
+        setResImageTxt(txt);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
   const handleImageChange = (fileBlob) => {
     const reader = new FileReader();
@@ -30,14 +61,32 @@ function ImageInput(props) {
   };
   return (
     <div>
-      <p>이미지 미리보기</p>
-      <div style={imageBoxStyle}>
-        {imageSrc && <img src={imageSrc} alt='preview' style={imageStyle} />}
-      </div>
+      <Container>
+        <Row>
+          <Col>
+            <p>이미지 미리보기</p>
+            <div style={imageBoxStyle}>
+              {imageSrc && (
+                <img src={imageSrc} alt='preview' style={imageStyle} />
+              )}
+            </div>
+          </Col>
+          <Col>
+            <p>검사 결과</p>
+            <div style={imageBoxStyle}>
+              {resImageSrc && (
+                <img src={resImageSrc} alt='resultview' style={imageStyle} />
+              )}
+              <p>{resImageTxt && resImageTxt}</p>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+
       <form onSubmit={handleSubmit}>
         <input
           type='file'
-          accept='image/png,image/jpeg'
+          accept='image/jpeg'
           name='file'
           onChange={(e) => handleImageChange(e.target.files[0])}
         />

@@ -1,31 +1,25 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Navbar, Button } from 'react-bootstrap';
 
-const headerStyle = {
-  width: '100vw',
-  height: '60px',
-  backgroundColor: '#ddd',
-};
-
-const divStyle = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  width: '70vw',
-  height: '60px',
-  margin: '0 auto',
-};
 function Header(props) {
-  const { userName } = props;
+  const nickName = JSON.parse(localStorage.getItem('user'))?.nickname;
+
+  const logout = () => {
+    localStorage.removeItem('user');
+  };
   return (
-    <header style={headerStyle}>
-      <div style={divStyle}>
-        <a href='/'>
-          <h2>LOGO</h2>
-        </a>
-        <p>{userName && userName}</p>
-      </div>
-    </header>
+    <Navbar bg='dark' data-bs-theme='dark'>
+      <Container>
+        <Navbar.Brand href='/'>LOGO</Navbar.Brand>
+        <Navbar.Collapse className='justify-content-end'>
+          <Navbar.Text>{nickName && <p>{nickName} 님</p>}</Navbar.Text>
+          <Button variant='outline-secondary' onClick={() => logout()}>
+            로그아웃
+          </Button>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 

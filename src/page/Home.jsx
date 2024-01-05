@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '../components/Header';
 import ImageInput from '../components/ImageInput';
 const divStyle = {
@@ -6,10 +6,15 @@ const divStyle = {
   margin: '0 auto',
 };
 function Home(props) {
-  const { userName, userId } = props;
+  useEffect(() => {
+    const user = localStorage.getItem('user');
+    if (user == null) {
+      window.location.href = '/login';
+    }
+  }, []);
   return (
     <div>
-      <Header userName={userName} />
+      <Header />
       <div style={divStyle}>
         <ImageInput />
       </div>
