@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
@@ -29,16 +29,17 @@ const inputStyle = {
   padding: '0 10px',
   borderRadius: '10px',
 };
-function Login(props) {
-  const { setUserName, setUserId } = props;
+function Signup(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const url = process.env.REACT_APP_OTHER_API_URL + '/users/login';
+
+    const url = process.env.REACT_APP_OTHER_API_URL + '/users/signup';
     const nickname = e.target.elements.nickname.value;
     const pw = e.target.elements.pw.value;
     const body = {
+      role: 2,
       nickname,
-      password: pw,
+      pw,
     };
 
     try {
@@ -48,15 +49,8 @@ function Login(props) {
         },
       });
       if (response.status === 200) {
-        const data = response.data;
-        setUserName(nickname);
-        setUserId(data.userId);
-        alert('로그인이 되었습니다.');
-        if (data.role === 1) {
-          window.location.href = '/admin-home';
-        } else if (data.role === 2) {
-          window.location.href = '/';
-        }
+        alert('회원가입이 되었습니다.');
+        window.location.href = '/login';
       }
     } catch (err) {
       console.error(err);
@@ -95,12 +89,11 @@ function Login(props) {
           />
         </div>
         <Button variant='primary' type='submit'>
-          Login
+          Signup
         </Button>
-        <a href='/signup'>회원가입하러 가기</a>
       </form>
     </div>
   );
 }
 
-export default Login;
+export default Signup;
