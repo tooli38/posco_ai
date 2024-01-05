@@ -4,8 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 
 const imageBoxStyle = {
-  width: '320px',
-  height: '320px',
+  width: '400px',
+  height: '400px',
   border: '1px solid #ddd',
 };
 
@@ -16,10 +16,18 @@ const imageStyle = {
 };
 
 function ImageInput(props) {
+  const [isUpload, setIsUpload] = useState(false);
   const [imageSrc, setImageSrc] = useState('');
   const [resImageSrc, setResImageSrc] = useState('');
   const [resImageTxt, setResImageTxt] = useState('');
+  const [imageData, setImageData] = useState({
+    originPath: '',
+    resultPath: '',
+    result: [],
+  });
+
   const userId = JSON.parse(localStorage.getItem('user'))?.userId;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = process.env.REACT_APP_IMAGE_API_URL;
@@ -45,7 +53,15 @@ function ImageInput(props) {
         for (let i = 0; i < newArr.length; i++) {
           txt += data.result[i] + ' ';
         }
+        setImageData((prev) => ({
+          ...prev,
+          userId,
+          originPath: data.originPath,
+          resultPath: data.resultPath,
+          result: data.result,
+        }));
         setResImageTxt(txt);
+        setIsUpload(true);
       }
     } catch (err) {
       console.error(err);
@@ -58,6 +74,21 @@ function ImageInput(props) {
       reader.onload = () => setImageSrc(reader.result);
       resolve();
     });
+  };
+
+  const handleEntry = async (e) => {
+    e.preventDefault();
+    const url = process.env.REACT_APP_OTHER_API_URL + '/file';
+    try {
+      const response = await axios.post(url, JSON.stringify(imageData), {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
   };
   return (
     <div>
@@ -94,6 +125,12 @@ function ImageInput(props) {
           업로드하기
         </Button>
       </form>
+
+      {isUpload && (
+        <Button variant='outline-success' size='lg' onClick={handleEntry}>
+          공원 입장하기
+        </Button>
+      )}
     </div>
   );
 }

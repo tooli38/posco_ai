@@ -7,6 +7,8 @@ function Header(props) {
 
   const logout = () => {
     localStorage.removeItem('user');
+    alert('로그아웃 되었습니다.');
+    window.location.href = '/login';
   };
   return (
     <Navbar bg='dark' data-bs-theme='dark'>

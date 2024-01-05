@@ -1,6 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import ImageInput from '../components/ImageInput';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button } from 'react-bootstrap';
 const divStyle = {
   width: '70vw',
   margin: '0 auto',
