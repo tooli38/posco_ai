@@ -14,9 +14,11 @@ const rightAlignStyle = {
 };
 
 const imageBoxStyle = {
-  width: "400px",
+  width: "380px",
   height: "400px",
   border: "1px solid #ddd",
+  justifyContent: "center",
+  alignItems: "center",
 };
 
 const imageStyle = {
@@ -24,6 +26,10 @@ const imageStyle = {
   height: "320px",
   objectFit: "contain",
   backgroundColor: "#DCDCDC",
+};
+
+const buttonStyle = {
+  margin: "10px",
 };
 
 const formatCreatedAt = (createdAt) => {
@@ -95,8 +101,12 @@ function Detail({ data, onClose }) {
         )}
         <p>{resImageTxt && resImageTxt}</p>
       </div>
-      {/* 추가적인 상세 정보 표시 */}
-      <button type="button" className="btn btn-secondary" onClick={onClose}>
+      <button
+        style={buttonStyle}
+        type="button"
+        className="btn btn-secondary"
+        onClick={onClose}
+      >
         닫기
       </button>
     </div>
