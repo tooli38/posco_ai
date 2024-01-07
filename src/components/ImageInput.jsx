@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Button, Container, Row, Col, Modal, Spinner } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 
 const imageBoxStyle = {
-  width: '400px',
-  height: '400px',
+  width: '30vw',
+  height: '30vw',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
   border: '1px solid #ddd',
 };
 
 const imageStyle = {
-  width: '320px',
-  height: '320px',
+  width: '27vw',
+  height: '27vw',
   objectFit: 'contain',
 };
 
 function ImageInput(props) {
-  const [isUpload, setIsUpload] = useState(false);
+  const [show, setShow] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [imageSrc, setImageSrc] = useState('');
   const [resImageSrc, setResImageSrc] = useState('');
   const [resImageTxt, setResImageTxt] = useState('');
@@ -29,6 +33,7 @@ function ImageInput(props) {
   const userId = JSON.parse(localStorage.getItem('user'))?.userId;
 
   const handleSubmit = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     const url = process.env.REACT_APP_IMAGE_API_URL;
     const formData = new FormData();
@@ -49,10 +54,15 @@ function ImageInput(props) {
         );
 
         let txt = '';
-        const newArr = [...new Set(data.result)];
-        for (let i = 0; i < newArr.length; i++) {
-          txt += data.result[i] + ' ';
-        }
+
+        let dogRes = data.result.some(
+          (res) => res === '핏불' || res === '불독'
+        );
+        if (dogRes)
+          txt =
+            '입마개가 필요한 견종(핏불, 불독 등)입니다. 입마개 착용후 공원 입장해주시기 바랍니다.';
+        else txt = '해당 견종은 안전한 견종입니다.';
+
         setImageData((prev) => ({
           ...prev,
           userId,
@@ -61,12 +71,15 @@ function ImageInput(props) {
           result: data.result,
         }));
         setResImageTxt(txt);
-        setIsUpload(true);
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsLoading(false);
+      handleShow();
     }
   };
+
   const handleImageChange = (fileBlob) => {
     const reader = new FileReader();
     reader.readAsDataURL(fileBlob);
@@ -88,10 +101,33 @@ function ImageInput(props) {
       console.log(response);
     } catch (err) {
       console.error(err);
+    } finally {
+      handleClose();
+      window.location.href = '/park';
     }
   };
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>검식 결과</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>{resImageTxt && resImageTxt}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant='outline-success' onClick={handleEntry}>
+            공원 입장하기
+          </Button>
+          <Button variant='secondary' onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <Container>
         <Row>
           <Col>
@@ -105,16 +141,21 @@ function ImageInput(props) {
           <Col>
             <p>검사 결과</p>
             <div style={imageBoxStyle}>
-              {resImageSrc && (
-                <img src={resImageSrc} alt='resultview' style={imageStyle} />
+              {isLoading ? (
+                <Spinner animation='border' role='status'>
+                  <span className='visually-hidden'>Loading...</span>
+                </Spinner>
+              ) : (
+                resImageSrc && (
+                  <img src={resImageSrc} alt='resultview' style={imageStyle} />
+                )
               )}
-              <p>{resImageTxt && resImageTxt}</p>
             </div>
           </Col>
         </Row>
       </Container>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{ marginTop: '30px' }}>
         <input
           type='file'
           accept='image/jpeg'
@@ -125,12 +166,6 @@ function ImageInput(props) {
           업로드하기
         </Button>
       </form>
-
-      {isUpload && (
-        <Button variant='outline-success' size='lg' onClick={handleEntry}>
-          공원 입장하기
-        </Button>
-      )}
     </div>
   );
 }

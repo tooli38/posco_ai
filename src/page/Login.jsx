@@ -31,6 +31,7 @@ const inputStyle = {
 };
 function Login(props) {
   const handleSubmit = async (e) => {
+    console.log(1);
     e.preventDefault();
     const url = process.env.REACT_APP_OTHER_API_URL + '/users/login';
     const nickname = e.target.elements.nickname.value;
@@ -41,17 +42,20 @@ function Login(props) {
     };
 
     try {
+      console.log(2);
       const response = await axios.post(url, JSON.stringify(body), {
         headers: {
           'Content-Type': 'application/json',
         },
       });
+      console.log(response);
       if (response.status === 200) {
         const data = response.data;
         const user = {
           userId: data.userId,
           nickname: nickname,
         };
+        console.log(3);
         window.localStorage.setItem('user', JSON.stringify(user));
         alert('로그인이 되었습니다.');
         if (data.role === 1) {

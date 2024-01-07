@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import ImageInput from '../components/ImageInput';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';
 const divStyle = {
   width: '70vw',
   margin: '0 auto',
+  paddingTop: '30px',
 };
 function Home(props) {
   useEffect(() => {
