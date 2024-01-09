@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import axios from "axios";
 
-import Header from "../components/Header";
-import Detail from "../components/Detail"; // Detail 컴포넌트 추가
-
 const divStyle = {
   display: "flex",
   justifyContent: "space-between",
@@ -91,7 +88,6 @@ function AdminHome(props) {
 
   return (
     <div>
-      <Header />
       <div style={divStyle}>
         <div style={{ width: "60%", marginRight: "25px" }}>
           <Table striped bordered hover>

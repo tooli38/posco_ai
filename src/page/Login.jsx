@@ -54,6 +54,7 @@ function Login(props) {
         const user = {
           userId: data.userId,
           nickname: nickname,
+          role: data.role,
         };
         console.log(3);
         window.localStorage.setItem('user', JSON.stringify(user));

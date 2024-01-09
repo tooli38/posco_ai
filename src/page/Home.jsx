@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../components/Header';
+import HeaderInfo from '../components/HeaderInfo';
 import ImageInput from '../components/ImageInput';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -17,7 +17,7 @@ function Home(props) {
   }, []);
   return (
     <div>
-      <Header />
+      <HeaderInfo />
       <div style={divStyle}>
         <ImageInput />
       </div>
