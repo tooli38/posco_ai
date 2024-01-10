@@ -1,13 +1,31 @@
 import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 import axios from "axios";
+import Detail from "../../components/Detail";
+import Box from '@mui/material/Box';
+import ListItem from '@mui/material/ListItem';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import { FixedSizeList } from 'react-window';
 
 const divStyle = {
   display: "flex",
   justifyContent: "space-between",
 };
 
-function AdminHome(props) {
+function renderRow(props) {
+  const { index, style } = props;
+
+  return (
+      <ListItem style={style} key={index} component="div" disablePadding>
+        <ListItemButton>
+          <ListItemText primary={`Item ${index + 1}`} />
+        </ListItemButton>
+      </ListItem>
+  );
+}
+
+function CustomHome(props) {
   const [dataList, setDataList] = useState([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [lastPage, setLastPage] = useState(0);
@@ -132,4 +150,4 @@ function AdminHome(props) {
   );
 }
 
-export default AdminHome;
+export default CustomHome;

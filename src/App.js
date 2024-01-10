@@ -10,6 +10,7 @@ import {ColorModeContext, useMode} from "./theme";
 import {CssBaseline, ThemeProvider} from "@mui/material";
 import {MyProSidebarProvider} from "./page/global/sidebar/sidebarContext";
 import HeaderInfo from "./components/HeaderInfo";
+import CustomHome from "./page/custom/CustomHome";
 
 const App = () => {
     const [theme, colorMode] = useMode();
@@ -27,6 +28,8 @@ const App = () => {
                                     <Routes>
                                         <Route path='/' element={<Navigate to="/admin/home" replace/>}/>
                                         <Route path='/admin/home' element={<AdminHome/>}></Route>
+                                        <Route path='/admin/custom' element={<CustomHome />}></Route>
+                                        <Route path='/admin/parkInfo' element={<AdminHome/>}></Route>
                                     </Routes>
                                 </main>
                             </div>
@@ -38,7 +41,7 @@ const App = () => {
                     <main>
                         <Routes>
                             <Route path='/' element={<Home/>}></Route>
-                            <Route path='/park' element={<Login/>}></Route>
+                            <Route path='/park' element={<Park/>}></Route>
                         </Routes>
                     </main>
                 </div> :

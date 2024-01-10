@@ -1,30 +1,20 @@
 // docs https://github.com/azouaoui-med/react-pro-sidebar
-import { useState } from "react";
-import { Menu, Sidebar, MenuItem } from "react-pro-sidebar";
-import { useProSidebar } from "react-pro-sidebar";
+import {useState} from "react";
+import {Menu, MenuItem, Sidebar, useProSidebar} from "react-pro-sidebar";
 
-import { useSidebarContext } from "./sidebarContext";
+import {useSidebarContext} from "./sidebarContext";
 
-import { Link } from "react-router-dom";
-import { tokens } from "../../../theme";
-import { useTheme, Box, Typography, IconButton } from "@mui/material";
+import {Link} from "react-router-dom";
+import {tokens} from "../../../theme";
+import {Box, IconButton, Typography, useTheme} from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
-import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
-
-import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
 import SwitchRightOutlinedIcon from "@mui/icons-material/SwitchRightOutlined";
 import SwitchLeftOutlinedIcon from "@mui/icons-material/SwitchLeftOutlined";
+
 const Item = ({ title, to, icon, selected, setSelected }) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -178,14 +168,14 @@ const MyProSidebar = () => {
                         </Typography>
                         <Item
                             title="고객 입장정보"
-                            to="/team"
+                            to="/admin/custom"
                             icon={<PeopleOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}
                         />
                         <Item
                             title="공원 상황정보"
-                            to="/contacts"
+                            to="/admin/parkInfo"
                             icon={<ContactsOutlinedIcon />}
                             selected={selected}
                             setSelected={setSelected}

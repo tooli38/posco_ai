@@ -1,26 +1,16 @@
-import {
-  Box,
-  Button,
-  IconButton,
-  Typography,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
+import {Box, Button, IconButton, Typography, useMediaQuery, useTheme,} from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import { tokens } from "../../theme";
-import { mockTransactions } from "../../data/mockData";
+import {tokens} from "../../theme";
+import {mockTransactions} from "../../data/mockData";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import DoorFrontIcon from '@mui/icons-material/DoorFront';
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import TrafficIcon from "@mui/icons-material/Traffic";
 import Header from "../../components/Header";
 import LineChart from "../../components/LineChart";
-import GeographyChart from "../../components/GeographyChart";
-import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
-import ProgressCircle from "../../components/ProgressCircle";
+import ParkInfoTable from "../../components/ParkInfoTable";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -193,12 +183,20 @@ const Dashboard = () => {
                 <Typography
                     variant="h5"
                     fontWeight="600"
-                    sx={{ marginBottom: "15px" }}
+                    sx={{ marginBottom: "1px" }}
                 >
-                  Geography Based Traffic
+                  공원 구역별 복잡도
                 </Typography>
-                <Box height="200px">
-                  <GeographyChart isDashboard={true} />
+                  <Typography
+                      variant="h5"
+                      fontWeight="600"
+                      color={colors.greenAccent[500]}
+                      sx={{ marginBottom: "10px" }}
+                  >
+                      2024.01.09 15:00갱신
+                  </Typography>
+                <Box height="320px">
+                  <ParkInfoTable />
                 </Box>
               </Box>
             </Grid>
@@ -220,7 +218,7 @@ const Dashboard = () => {
               >
                 <Typography
                     variant="h5"
-                    fontWeight="600"
+                    fontWeight="60"
                     color={colors.grey[100]}
                 >
                   최근 입장 고객
